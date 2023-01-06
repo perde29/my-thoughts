@@ -5,11 +5,12 @@ namespace App\Form\Handler;
 use App\Entity\Product;
 use App\Utils\File\FileSaver;
 use App\Utils\Manager\ProductManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Form;
 
 class ProductFormHandler
 {
+    public $productManager;
+    public $fileSaver;
 
     public function __construct(ProductManager $productManager, FileSaver $fileSaver)
     {
@@ -30,8 +31,6 @@ class ProductFormHandler
         $tempImageFilename = $newImageFile
          ? $this->fileSaver->saveUploadedFileIntoTemp($newImageFile)
          : null;
-
-
 
         $this->productManager->updateProductImages($product, $tempImageFilename);
 

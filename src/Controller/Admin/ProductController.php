@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\EditProductFormType;
 use App\Form\Handler\ProductFormHandler;
+use App\Utils\Manager\ProductManager;
+
 
 /**
  * @Route("/admin/product", name="admin_product_")
@@ -68,10 +70,15 @@ class ProductController extends AbstractController
     /**
      * @Route("/delete/{id}", name="delete")
      */
-    public function delete()
+    public function delete(ProductManager $productManager,$id = 0): Response
     {
 
-    
+        $entityManager = $this->getDoctrine()->getManager();
+        $product = $entityManager->getRepository(Product::class)->find($id);
+
+        $productManager->remove($product);
+
+        return $this->redirectToRoute('admin_product_list');
     }
 
 

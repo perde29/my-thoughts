@@ -17,6 +17,7 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
+   
         $entityManager = $this->getDoctrine()->getManager();
 
         $productList = $entityManager->getRepository(Product :: class)->findAll();
@@ -35,6 +36,7 @@ class DefaultController extends AbstractController
      */
     public function productAdd(Request $request)
     {
+    
 
         $product = new Product();
         $product->setTitle("Product".rand(1,100));
@@ -47,7 +49,7 @@ class DefaultController extends AbstractController
         $entityManager->persist($product);
         $entityManager->flush();
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('main_homepage');
         
         /*
         return $this->render('default/index.html.twig', [

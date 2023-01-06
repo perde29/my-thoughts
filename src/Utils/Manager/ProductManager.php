@@ -3,7 +3,6 @@
 namespace App\Utils\Manager;
 
 use App\Entity\Product;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 
@@ -37,9 +36,10 @@ class ProductManager
     }
 
 
-    public function remove()
+    public function remove(Product $product)
     {
-
+        $product->setIsDeleted(true);
+        $this->save($product);
     }
 
 
