@@ -15,7 +15,7 @@ class ProfileController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('profile/index.html.twig');
+        return $this->render('main/profile/index.html.twig');
     }
 
     /**
@@ -36,7 +36,7 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('main_profile_index');
         }
 
-        return $this->render('profile/edit.html.twig',[
+        return $this->render('main/profile/edit.html.twig',[
           'form' => $form->createView()
         ]);
 

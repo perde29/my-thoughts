@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
         // dd($productList);die;
 
 
-        return $this->render('default/index.html.twig', [
+        return $this->render('main/default/index.html.twig', [
             'controller_name' => 'DefaultController',
         ]);
     }
@@ -95,7 +95,7 @@ class DefaultController extends AbstractController
         }
       //  dd($form);die;
       
-        return $this->render('default/edit_product.html.twig', [
+        return $this->render('main/default/edit_product.html.twig', [
             'form' => $form->createView()
             
         ]);

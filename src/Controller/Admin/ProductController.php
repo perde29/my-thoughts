@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
+use App\Form\DTO\EditProductModel;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,17 +48,26 @@ class ProductController extends AbstractController
 
         }
         
+        $editProductModel = EditProductModel::makeFromProduct($product);
 
-        $form = $this->createForm(EditProductFormType::class, $product);
+
+        $form = $this->createForm(EditProductFormType::class, $editProductModel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { 
+            
+            $product = $productFormHandler->processEditForm($editProductModel, $form);
 
-            $product = $productFormHandler->processEditForm($product, $form);
+            $this->addFlash('success', 'Your changes were saved!');
 
             return $this->redirectToRoute('admin_product_edit', ['id' => $product->getId() ]);
         }
     
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('warning', 'Something went wrong. Please check your form!.');
+        }
+
         return $this->render('admin/product/edit.html.twig', [
             'images'  => $product->getProductImages()->getValues(),
             'product' => $product,
@@ -77,6 +87,8 @@ class ProductController extends AbstractController
         $product = $entityManager->getRepository(Product::class)->find($id);
 
         $productManager->remove($product);
+
+        $this->addFlash('warning', 'The product was successfully deleted!.');
 
         return $this->redirectToRoute('admin_product_list');
     }
